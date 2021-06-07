@@ -5,6 +5,8 @@ import numpy as np
 
 
 def main(args):
+    print(args.in_file)
+    print(args.out_file)
     in_rate, in_data = wavfile.read(args.in_file)
     out_rate, out_data = wavfile.read(args.out_file)
     assert in_rate == out_rate, "in_file and out_file must have same sample rate"

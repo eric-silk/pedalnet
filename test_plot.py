@@ -3,12 +3,12 @@ import torch
 from scipy.io import wavfile
 import argparse
 import numpy as np
+import matplotlib.pyplot as plt
 
 from model import PedalNet
 
 
 def save(name, data):
-    print(max(abs(data.flatten())))
     wavfile.write(name, 44100, data.flatten().astype(np.int16))
 
 
@@ -28,10 +28,17 @@ def test(args):
 
     y_pred = np.concatenate(y_pred)
     y_pred = y_pred[:, :, -x_test.shape[2] :]
+    plt.figure()
+    plt.title("y_pred")
+    plt.plot(y_pred.flatten())
+    plt.figure()
+    plt.title("y_test")
+    plt.plot((data["y_test"]*data["std"]+data["mean"]).flatten().astype(np.int16))
+    plt.show()
 
+    save("y_pred.wav", y_pred)
     save("x_test.wav", data["x_test"] * data["std"] + data["mean"])
-    save("y_test.wav", data["y_test"] * 10 * data["std"] + data["mean"])
-    save("y_pred.wav", y_pred * 10 * data["std"] + data["mean"])
+    save("y_test.wav", data["y_test"])
 
 
 if __name__ == "__main__":

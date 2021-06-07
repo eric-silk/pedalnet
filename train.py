@@ -5,12 +5,13 @@ from model import PedalNet
 
 
 def main(args):
-    model = PedalNet(vars(args))
+    #model = PedalNet(vars(args))
+    model = PedalNet(args)
     trainer = pl.Trainer(
         max_epochs=args.max_epochs, gpus=args.gpus, row_log_interval=100
     )
     trainer.fit(model)
-
+    trainer.save_checkpoint("hm2.ckpt")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
